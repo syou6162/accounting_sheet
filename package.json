@@ -1,0 +1,17 @@
+{
+  "name": "accounting_sheet",
+  "version": "1.0.0",
+  "description": "清算用シートにSlackから書き込んでくれるbot君",
+  "main": "index.js",
+  "scripts": {
+    "publish": "npm run build && npm run upload",
+    "build": "npm run tsc",
+    "tsc": "tsc",
+    "upload": "gapps upload"
+  },
+  "author": "Yasuhisa Yoshida",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/google-apps-script": "0.0.11"
+  }
+}
