@@ -44,7 +44,13 @@ class AccountingSheet {
     this.botName = PropertiesService.getScriptProperties().getProperty("BOT_NAME");
   }
 
-  doPost(p: IncommingParameter) {
+  slackParam2IncommingParameter(slackParam: any): IncommingParameter {
+    return new IncommingParameter(slackParam.parameter.text, slackParam.parameter.token);
+  }
+
+  doPost(slackParam: any) {
+    this.init();
+    let p = this.slackParam2IncommingParameter(slackParam);
     if (this.slackVerifyToken != p.token) {
       throw new Error("invalid token.");
     }
@@ -70,10 +76,21 @@ class AccountingSheet {
   }
 }
 
+function doPost(slackParam: any) {
+  let accountingSheet = new AccountingSheet;
+  accountingSheet.init();
+  accountingSheet.doPost(slackParam);
+}
+
 function init() {
   let accountingSheet = new AccountingSheet;
   accountingSheet.init();
   let token = PropertiesService.getScriptProperties().getProperty("SLACK_VERIFY_TOKEN")
-  let p = new IncommingParameter("111: test", token);
-  accountingSheet.doPost(p);
+  let slackParam = {
+    parameter: {
+      text: "111: test",
+      token: token
+    }
+  };
+  accountingSheet.doPost(slackParam);
 }
